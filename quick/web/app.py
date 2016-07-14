@@ -11,6 +11,9 @@ import json
 
 
 class WebHandler(object):
+    def __init__(self, args):
+        self.__args = args
+
     def get(self):
         pass
 
@@ -35,14 +38,12 @@ class WebHandler(object):
     def unknow_http_method(self):
         pass
 
-    def __handle_request(self, environ, start_response):
+    def __handle_request(self, request):
         """
         分配方法处理请求
-        :param environ:
-        :param start_response:
         :return:
         """
-        self.request = Request(environ)
+        self.request = request
 
         if self.request.method == 'GET':
             result = self.get()
@@ -63,7 +64,7 @@ class WebHandler(object):
 
         response = self.__make_quick_response(result)
 
-        return response(environ, start_response)
+        return response
 
     def __make_quick_response(self, result):
         """
@@ -85,11 +86,9 @@ class WebHandler(object):
             return Response(result.strftime("%Y-%m-%d"), 200)
         return Response(result, 200)
 
-    def __call__(self, environ, start_response):
+    def __call__(self, request):
         """
         入口方法
-        :param environ:
-        :param start_response:
         :return:
         """
-        return self.__handle_request(environ, start_response)
+        return self.__handle_request(request)
