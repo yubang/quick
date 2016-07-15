@@ -13,7 +13,7 @@ from werkzeug.exceptions import HTTPException
 
 
 class QuickApplication(object):
-
+    config = {}
     def __build_route(self):
         """
         刷新路由规则
@@ -80,7 +80,7 @@ class QuickApplication(object):
         request = Request(environ)
 
         # 中间件前置处理
-        middle_objs = map(lambda x: x(), self.middles)
+        middle_objs = map(lambda x: x(self.config), self.middles)
         self.__before_request(request, middle_objs)
 
         urls = self.url_map.bind_to_environ(environ)

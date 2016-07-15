@@ -6,15 +6,8 @@
 @author: yubang
 """
 
+from quick.middler import BaseMiddler
 import time
-
-
-class BaseMiddler(object):
-    def before_request(self, request):
-        pass
-
-    def after_request(self, request, response):
-        return response
 
 
 class QuickVersionMiddler(BaseMiddler):
