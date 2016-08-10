@@ -1,9 +1,8 @@
 # coding:UTF-8
 
 
+from quick.middleware import VersionMiddle, RequestTimeMiddleware, SessionMiddleware
 from quick.web import WebHandler, HttpServer, QuickApplication
-from quick.tools.middler import QuickVersionMiddler, QuickRequestTimeMiddler
-from quick.middler.session_middler import CookieSessionMiddler
 
 
 class T(WebHandler):
@@ -19,8 +18,8 @@ class T(WebHandler):
 app = QuickApplication()
 app.config['key'] = '123456'
 app.add_route([('/', T)])
-app.add_middles([QuickVersionMiddler, QuickRequestTimeMiddler])
-app.add_middles([CookieSessionMiddler])
+app.add_middleware([VersionMiddle, RequestTimeMiddleware])
+app.add_middleware([SessionMiddleware])
 
 server = HttpServer()
 server.start_server(app)

@@ -6,8 +6,9 @@
 @author: yubang
 """
 
-from quick.middler import BaseMiddler
 import time
+
+from quick.middleware import BaseMiddler
 
 
 class QuickVersionMiddler(BaseMiddler):
@@ -15,8 +16,12 @@ class QuickVersionMiddler(BaseMiddler):
     版本号中间件
     """
 
-    def before_request(self, request):
+    def __init__(self, config):
+        super(QuickVersionMiddler, self).__init__(config)
         self.version = "version: 1.0(beta), 20160714"
+
+    def before_request(self, request):
+        pass
 
     def after_request(self, request, response):
         response.headers['server'] = self.version
@@ -24,11 +29,14 @@ class QuickVersionMiddler(BaseMiddler):
 
 
 class QuickRequestTimeMiddler(BaseMiddler):
-    def before_request(self, request):
+    def __init__(self, config):
+        super(QuickRequestTimeMiddler, self).__init__(config)
         self.start_time = time.time()
 
+    def before_request(self, request):
+        pass
+
     def after_request(self, request, response):
-        self.end_time = time.time()
-        use_time = self.end_time - self.start_time
+        use_time = time.time() - self.start_time
         response.headers['use_time'] = str(use_time)
         return response

@@ -6,14 +6,14 @@
 @author: yubang
 """
 
-
-from werkzeug.wrappers import Request, Response
-from werkzeug.routing import Map, Rule
 from werkzeug.exceptions import HTTPException
+from werkzeug.routing import Map, Rule
+from werkzeug.wrappers import Request, Response
 
 
 class QuickApplication(object):
     config = {}
+
     def __build_route(self):
         """
         刷新路由规则
@@ -26,7 +26,7 @@ class QuickApplication(object):
 
     def __init__(self, app_name="default"):
         self.routes = []
-        self.middles = []
+        self.middleware = []
         self.app_name = app_name
         self.__build_route()
 
@@ -39,13 +39,13 @@ class QuickApplication(object):
         self.routes += routes
         self.__build_route()
 
-    def add_middles(self, middlers):
+    def add_middleware(self, middleware):
         """
         添加中间件
-        :param middlers: [中间件, ]
+        :param middleware: [中间件, ]
         :return:
         """
-        self.middles += middlers
+        self.middleware += middleware
 
     @staticmethod
     def __before_request(request, middle_objs):
@@ -80,7 +80,7 @@ class QuickApplication(object):
         request = Request(environ)
 
         # 中间件前置处理
-        middle_objs = map(lambda x: x(self.config), self.middles)
+        middle_objs = map(lambda x: x(self.config), self.middleware)
         self.__before_request(request, middle_objs)
 
         urls = self.url_map.bind_to_environ(environ)
