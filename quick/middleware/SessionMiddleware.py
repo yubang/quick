@@ -7,11 +7,11 @@
 """
 
 
-from quick.middler import BaseMiddler
+from quick.middleware import BaseMiddleware
 import pickle
 
 
-class CookieSessionMiddler(BaseMiddler):
+class SessionMiddleware(BaseMiddleware):
 
     def before_request(self, request):
         try:

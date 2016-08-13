@@ -35,7 +35,7 @@ class WebHandler(object):
     def options(self):
         pass
 
-    def unknow_http_method(self):
+    def unknown_http_method(self):
         pass
 
     def __handle_request(self, request):
@@ -60,7 +60,7 @@ class WebHandler(object):
         elif self.request.method == 'OPTIONS':
             result = self.options()
         else:
-            result = self.unknow_http_method()
+            result = self.unknown_http_method()
 
         response = self.__make_quick_response(result)
 
